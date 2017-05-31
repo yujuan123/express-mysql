@@ -1,33 +1,52 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="css/movieDetail.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#user-submit').click(function () {
-                var payload = {
-                    name: $('#user-name').val()
-                };
-                console.log(payload);
-                $.ajax({
-                    url: "/insert-user",
-                    type: "POST",
-                    contentType: "application/json",
-                    processData: false,
-                    data: JSON.stringify(payload),
-                    complete: function (data) {
-                        console.log(data);
-                        $('#output').html(data.responseText);
-                    }
-                });
-            });
-        });
+
+            $.ajax({
+                url: 'get-movies',
+                type: 'GET',
+                success: function (data) {
+                    console.log(data);
+
+                    var movie = data[0];
+                    document.getElementById("movies").innerHTML +=
+                            `<div class="pri-content left">
+        <img src=${movie.moviePhoto} width="180px" height="230px">
+    </div>
+    <div class="second-content right">
+        <dl class="movie-info clearfix">
+            <dt>片名:</dt>
+            <dd>${movie.movieName}</dd>
+            <dt>类型:</dt>
+            <dd class="long">${movie.movieType}</dd>
+            <dt>语言 :</dt>
+            <dd>${movie.movieLanguage}</dd>
+            <dt>片长:</dt>
+            <dd>${movie.movieTime}</dd>
+
+        </dl>
+        <div class="left movie-desc">
+            <h3>故事简介</h3>
+            <p class="description">${movie.movieDescribe}</p>
+        </div>
+    </div>`
+                    ;
+                },
+                error: function (e) {
+                    console.log(e.message);
+                }
+            })
+        })
+
     </script>
 </head>
 <body>
-<h3>Enter a username to enter into the database:</h3>
-<input id="user-name" type="text" />
-<input id="user-submit" type="submit" />
-<p id="output"></p>
+<div id="movies">
+</div>
+<a href="homePage.html">link to</a>
 </body>
 </html>

@@ -7,14 +7,18 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
-  res.sendFile(path.resolve('./public/index.html'));
+//加载public下面的静态资源:
+app.use(express.static('public'));
+
+app.use('*', function (req, res) {
+  res.sendFile(path.resolve('./public'));
 });
+
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'hhxx',
-  database: 'db'
+  database: 'ttms'
 });
 //连接数据库
 connection.connect(function (err) {
@@ -24,41 +28,46 @@ connection.connect(function (err) {
   }
   console.log("connection id" + connection.threadId);
 });
-//进行CRUD
-// https://github.com/mysqljs/mysql#performing-queries
-
-/*//向 myClass表中插入一条数据
-var myAddSql = 'insert into myClass values(4,?,?,?)';
-var addSql_params = ['Sarah', 0, 80.45];
-
-//查
-var myGetSql = 'select *from `myClass` where `sex` = ?';
-var getSql_params = [0];
-
-//删
-
-var myDelSql = 'delete from `myClass` where `name` like ?';
-var delSql_params = ['Sarah'];
-
-//改
-var myUpdateSql = 'update `myClass` set `name` ="Wang" where `name` = ?';
-var update_params = ['Sam'];*/
-
-/*connection.query(myAddSql, addSql_params, function (error, results, fields) {
- if (error) throw error;
- console.log('result is: ', results);
- });*/
-//结合app.post更新数据库
-app.post('/insert-user', function (req, res) {
+app.get('/get-movies',function(req,res){
+  console.log("fjdkfd");
   console.log(req.body);
-  connection.query('insert into `users` set ?',req.body,
-      function (err, result) {
-        if (err) throw err;
-        res.send('User added to database with ID: ' + result.insertId);
-      }
-  );
+  connection.query('select *from `MovieTable`', function (err, results, fields) {
+    if (err) throw err;
+    console.log("result is:" + results);
+    res.send(results);
+  });
 });
 
+//查询所有
+
+/*//增：插入一条
+connection.query('insert into `MovieTable` set ?', {
+  movieName: 'Running',
+  movieType: '言情',
+  movieLanguage: '国语',
+  movieDescribe: 'good movie',
+  movieStarTime: '8:00',
+  movieEndTime: '9:00'
+},function(err,results){
+  if(err){
+    throw err;
+  }
+  console.log("results is" + results);
+});
+//改
+connection.query('update `MovieTable` set `movieName`=? where `movieName`= ?', ['One night', 'One day'], function (err, results) {
+  if (err) {
+    throw err;
+  }
+  console.log("result is :" + results);
+});
+//删
+connection.query('delete from `MovieTable` where `movieLanguage` = ?', ['国语'], function (err, results) {
+  if (err) {
+    throw(err);
+  }
+  console.log("result is" + results);
+});*/
 
 app.listen(3000, function () {
   console.log("app is listening");
