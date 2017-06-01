@@ -1,52 +1,17 @@
 <!doctype html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/movieDetail.css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="./src/js/jquery-3.1.0.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $.ajax({
-                url: 'get-movies',
-                type: 'GET',
-                success: function (data) {
-                    console.log(data);
 
-                    var movie = data[0];
-                    document.getElementById("movies").innerHTML +=
-                            `<div class="pri-content left">
-        <img src=${movie.moviePhoto} width="180px" height="230px">
-    </div>
-    <div class="second-content right">
-        <dl class="movie-info clearfix">
-            <dt>片名:</dt>
-            <dd>${movie.movieName}</dd>
-            <dt>类型:</dt>
-            <dd class="long">${movie.movieType}</dd>
-            <dt>语言 :</dt>
-            <dd>${movie.movieLanguage}</dd>
-            <dt>片长:</dt>
-            <dd>${movie.movieTime}</dd>
-
-        </dl>
-        <div class="left movie-desc">
-            <h3>故事简介</h3>
-            <p class="description">${movie.movieDescribe}</p>
-        </div>
-    </div>`
-                    ;
-                },
-                error: function (e) {
-                    console.log(e.message);
-                }
-            })
         })
 
     </script>
-</head>
 <body>
-<div id="movies">
-</div>
-<a href="homePage.html">link to</a>
+
+<a href="./html/user/nextShow/movieDetail.html">link to detailMovie</a>
 </body>
 </html>
+</head>
